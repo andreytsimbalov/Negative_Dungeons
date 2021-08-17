@@ -18,9 +18,10 @@ public class NumberBlock : MonoBehaviour
     public int[] res = new int[3];
     public string[] res_s = new string[3];
 
-
+    private TimerBar timerBar;
     void Start()
     {
+        timerBar = GameObject.Find("TimerBar").GetComponent<TimerBar>();
         GenerateEquation(-1, -1, 3);
         IntsNumbers();
     }
@@ -56,18 +57,12 @@ public class NumberBlock : MonoBehaviour
 
                 iter++;
             }
-            
+
             if (i == 0)
             {
                 GameObject num = Instantiate(operators, transform);
                 Vector2 tr = transform.position;
                 num.transform.position = tr + offsetInst * iter;
-                print(oper_s);
-                for (int k = 0; k < oper_s.Length; k++)
-                {
-                    print(oper_s[k]);
-                }
-                print(oper);
                 num.transform.Find("Canvas/Text").GetComponent<Text>().text = oper_s[oper];
 
                 iter++;
@@ -85,13 +80,16 @@ public class NumberBlock : MonoBehaviour
         }
     }
 
+    public void DelNumbers()
+    {
+        foreach (Transform child in transform)
+            child.GetComponent<DestrSymbol>().DestrMe();
+    }
+
     public void GenerateEquation(int oper_loc = -1, int id = -1, int hard_lvl = 1)
     {
         id = id == -1 ? Random.Range(0, 3) : id;
         oper = oper_loc == -1 ? Random.Range(0, 3) : oper_loc;
-
-        print("hard_lvl");
-        print(hard_lvl);
 
         switch (oper)
         {
@@ -163,9 +161,20 @@ public class NumberBlock : MonoBehaviour
         }
 
 
-        if (del_error) print("equt ERROR");
+        if (del_error)
+        {
+            timerBar.lvlController.RestartLvl();
+            print("equt ERROR");
+            DelNumbers();
+        }
 
-        if (checkEquationFinal()) print("WIN");
+        if (checkEquationFinal())
+        {
+            timerBar.addTimer();
+            print("WIN");
+            DelNumbers();
+        }
+
     }
 
     bool checkEquation()

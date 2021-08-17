@@ -11,9 +11,11 @@ public class Number : MonoBehaviour
     public int id;
     public int sub_id;
 
+    private DestrSymbol destrSymbol;
 
     private void Start()
     {
+        destrSymbol = GetComponent<DestrSymbol>();
         numberBlock = GetComponentInParent<NumberBlock>();
     }
 
@@ -28,7 +30,6 @@ public class Number : MonoBehaviour
     public void DestrMe()
     {
         numberBlock.delNumber(id, sub_id);
-        //Destroy(gameObject, 0.01f);
-        Destroy(gameObject);
+        destrSymbol.DestrMe();
     }
 }

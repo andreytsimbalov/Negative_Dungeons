@@ -58,7 +58,8 @@ public class BulletScr : MonoBehaviour
 
 	void DestrMe(float timer)
 	{
-		Instantiate(postBullet, transform.position, Quaternion.identity);//Quaternion.identity
+		GameObject asd =  Instantiate(postBullet, transform.position, Quaternion.identity);//Quaternion.identity
+		Destroy(asd, 2f) ;
 		Destroy(gameObject, timer);
 	}
 }
