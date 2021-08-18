@@ -9,10 +9,12 @@ public class Weapon : MonoBehaviour
 	public float startShotTime;
 	public bool death = false;
 	public Transform ff;
+	public GameObject LightVector;
 
 
 	private void Start()
 	{
+		LightVector.SetActive(false);
 		ff = firePoint.GetChild(0);
 	}
 
@@ -29,6 +31,14 @@ public class Weapon : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			Shoot();
+		}
+		if (Input.GetMouseButtonDown(1))
+		{
+			LightVector.SetActive(true);
+		}
+		if (Input.GetMouseButtonUp(1))
+		{
+			LightVector.SetActive(false);
 		}
 	}
 

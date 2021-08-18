@@ -46,15 +46,15 @@ public class LvlController : MonoBehaviour
             NextScene(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            PlayerPrefs.SetInt("NowLvl", SceneManager.GetActiveScene().buildIndex);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    PlayerPrefs.SetInt("NowLvl", SceneManager.GetActiveScene().buildIndex);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            PlayerPrefs.SetInt("NowLvl", 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    PlayerPrefs.SetInt("NowLvl", 0);
+        //}
     }
 
     public void NextScene(int ns= -1)

@@ -58,7 +58,7 @@ public class Menu : MonoBehaviour
     {
         int iterx = -1;
         int itery = -1;
-        sceneCount = 20;
+
         for (int i = 0; i < sceneCount-2; i++)
         {
             iterx++;

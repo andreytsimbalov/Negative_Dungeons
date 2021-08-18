@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Number
+  - OtherGround
   layers:
   - Default
   - TransparentFX
@@ -57,6 +58,9 @@ TagManager:
     locked: 0
   - name: Effects
     uniqueID: 2387021415
+    locked: 0
+  - name: FrontGround
+    uniqueID: 1616052073
     locked: 0
   - name: FirstUi
     uniqueID: 6766495

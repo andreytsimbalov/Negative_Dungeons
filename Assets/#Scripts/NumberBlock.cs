@@ -6,6 +6,10 @@ using TMPro;
 
 public class NumberBlock : MonoBehaviour
 {
+    public int oper_loc = -1;
+    public int id = -1;
+    public int hard_lvl = 1;
+
 
     public GameObject number;
     public GameObject operators;
@@ -37,31 +41,31 @@ public class NumberBlock : MonoBehaviour
     {
         numBlocksManager = GameObject.Find("NumBlocksManager").GetComponent<NumBlocksManager>();
         timerBar = GameObject.Find("TimerBar").GetComponent<TimerBar>();
-        GenerateEquation(-1, -1, 3);
+        GenerateEquation(oper_loc, id, hard_lvl);
         IntsNumbers();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            GenerateEquation(-1, -1, 3);
-            IntsNumbers();
-        }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Tab))
+    //    {
+    //        GenerateEquation(-1, -1, 3);
+    //        IntsNumbers();
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            //delNumber(1, Random.Range(0, ););
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.T))
+    //    {
+    //        delNumber(1, Random.Range(0, ););
+    //    }
+    //}
 
     void IntsNumbers()
     {
         if (invertInts)
         {
             int iter = 0;
-            for (int i = res_s.Length-1; i >= 0; i--)
+            for (int i = res_s.Length - 1; i >= 0; i--)
             {
                 char[] charArr = res_s[i].ToCharArray();
 
@@ -85,7 +89,7 @@ public class NumberBlock : MonoBehaviour
                     iter++;
                 }
 
-                for (int j = 0; j < charArr.Length; j++)
+                for (int j = charArr.Length-1; j >=0 ; j--)
                 {
                     GameObject num = Instantiate(number, transform);
                     Vector2 tr = transform.position;
@@ -96,7 +100,7 @@ public class NumberBlock : MonoBehaviour
                     iter++;
                 }
 
-                
+
             }
         }
         else
@@ -137,7 +141,7 @@ public class NumberBlock : MonoBehaviour
                 }
             }
         }
-        
+
     }
 
     public void DelNumbers()
@@ -286,7 +290,7 @@ public class NumberBlock : MonoBehaviour
             transform.GetChild(0).GetComponent<DestrSymbol>().DestrMe();
             yield return new WaitForSeconds(0.05f);
         }
-        
+
         //foreach (Transform child in transform)
         //{
         //    child.GetComponent<DestrSymbol>().DestrMe();
