@@ -234,11 +234,16 @@ public class NumberBlock : MonoBehaviour
                 child.GetComponent<DestrSymbol>().StartDarness();
             }
 
-            GameObject.Find("Interface/TextNotificaton").GetComponent<TMP_Text>().text = texts_error_math[Random.Range(0, texts_error_math.Length)];
-            timerBar.stopIt = true;
+            GameObject.Find("Interface").GetComponent<WLMessage>().EndLvl(false, texts_error_math[Random.Range(0, texts_error_math.Length)]);
 
-            //timerBar.lvlController.FinishScene();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>().Die();
+
+            //GameObject.Find("Interface/TextNotificaton").GetComponent<TMP_Text>().text = texts_error_math[Random.Range(0, texts_error_math.Length)];
+            //timerBar.stopIt = true;
+
+            ////timerBar.lvlController.FinishScene();
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>().Die();
+
+
             print("equt ERROR");
             //DelNumbers();
         }

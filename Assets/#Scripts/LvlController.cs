@@ -124,6 +124,8 @@ public class LvlController : MonoBehaviour
 
         ns = ns == -1 ? SceneManager.GetActiveScene().buildIndex + 1  : ns;
 
+        if (ns >= SceneManager.sceneCountInBuildSettings)
+            ns = 0;
         SceneManager.LoadScene(ns);
     }
 

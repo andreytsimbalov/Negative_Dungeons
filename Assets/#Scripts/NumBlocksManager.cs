@@ -25,10 +25,14 @@ public class NumBlocksManager : MonoBehaviour
         numberBlocksCounter++;
         if(numberBlocksCounter >= numberBlocksMax)
         {
-            text_not.text = texts_win[Random.Range(0, texts_win.Length)];
             PlayerController1 plc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
             plc.canIDeath = false;
-            plc.timerBar.stopIt = true;
+
+            GameObject.Find("Interface").GetComponent<WLMessage>().EndLvl(true, texts_win[Random.Range(0, texts_win.Length)]);
+
+            //text_not.text = texts_win[Random.Range(0, texts_win.Length)];
+            //plc.timerBar.stopIt = true;
+
             //lvlController.NextScene();
         }
     }

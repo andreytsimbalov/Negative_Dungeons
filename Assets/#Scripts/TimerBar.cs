@@ -41,10 +41,14 @@ public class TimerBar : MonoBehaviour
     public void RestartLvl()
     {
         if (restLvl) return;
-        text_not.text = texts_time_lose[Random.Range(0, texts_time_lose.Length)];
         //lvlController.FinishScene();
 
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>().Die();
+        GameObject.Find("Interface").GetComponent<WLMessage>().EndLvl(false, texts_time_lose[Random.Range(0, texts_time_lose.Length)]);
+
+        //text_not.text = texts_time_lose[Random.Range(0, texts_time_lose.Length)];
+
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>().Die();
+
         restLvl = true;
     }
     public void addTimer()

@@ -24,6 +24,8 @@ public class PlayerController1 : MonoBehaviour
     private float deshTime_now = 0f;
 
     //public LvlController lvlController;
+
+    public WLMessage wlmess;
     public TMP_Text text_not;
     public TimerBar timerBar;
 
@@ -41,12 +43,7 @@ public class PlayerController1 : MonoBehaviour
     public bool death = false;
     public bool canIDeath = true;
 
-    string[] texts_death = new string[]
-    { "Even mathematicians \n die at work... \n ...hmm, fun",
-        "You couldn’t solve \n this example anyway",
-        "auch",
-        "Euclid, Gauss, Cauchy, Euler... \n it's a pity that no one \n will know about you like that"
-    };
+    
     void Start()
     {
         timerBar = GameObject.Find("TimerBar").GetComponent<TimerBar>();
@@ -191,10 +188,11 @@ public class PlayerController1 : MonoBehaviour
         transform.Find("Weapon").GetComponent<Weapon>().death = true;
 
         //lvlController.FinishScene();
-        timerBar.stopIt = true;
 
-        if (show_death_text)
-            text_not.text = texts_death[Random.Range(0, texts_death.Length)];
+
+        //timerBar.stopIt = true;
+        //if (show_death_text)
+        //    text_not.text = texts_death[Random.Range(0, texts_death.Length)];
     }
 
 
