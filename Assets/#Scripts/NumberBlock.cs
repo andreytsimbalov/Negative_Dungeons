@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NumberBlock : MonoBehaviour
 {
-    // + - *
 
     public GameObject number;
     public GameObject operators;
+
+    public bool invertInts = false;
 
     public Vector2 offsetInst = Vector2.right;
     public int oper = 0;
@@ -19,8 +21,21 @@ public class NumberBlock : MonoBehaviour
     public string[] res_s = new string[3];
 
     private TimerBar timerBar;
+
+    private NumBlocksManager numBlocksManager;
+
+
+    string[] texts_error_math = new string[]
+    { "Not mathematical",
+        "e^(i*PI) + 1 = 0 \n at least remember this",
+        "F",
+        "An infinite number of \n mathematicians walk into a bar... \n ...but without you"
+    };
+
+
     void Start()
     {
+        numBlocksManager = GameObject.Find("NumBlocksManager").GetComponent<NumBlocksManager>();
         timerBar = GameObject.Find("TimerBar").GetComponent<TimerBar>();
         GenerateEquation(-1, -1, 3);
         IntsNumbers();
@@ -29,7 +44,7 @@ public class NumberBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             GenerateEquation(-1, -1, 3);
             IntsNumbers();
@@ -43,41 +58,86 @@ public class NumberBlock : MonoBehaviour
 
     void IntsNumbers()
     {
-        int iter = 0;
-        for (int i = 0; i < res_s.Length; i++)
+        if (invertInts)
         {
-            char[] charArr = res_s[i].ToCharArray();
-            for (int j = 0; j < charArr.Length; j++)
+            int iter = 0;
+            for (int i = res_s.Length-1; i >= 0; i--)
             {
-                GameObject num = Instantiate(number, transform);
-                Vector2 tr = transform.position;
-                num.transform.position = tr + offsetInst * iter;
-                num.GetComponent<Number>().SetNumber(charArr[j].ToString(), i, j);
+                char[] charArr = res_s[i].ToCharArray();
+
+                if (i == 0)
+                {
+                    GameObject num = Instantiate(operators, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.transform.Find("Canvas/Text").GetComponent<TMP_Text>().text = oper_s[oper];
+
+                    iter++;
+                }
+
+                if (i == 1)
+                {
+                    GameObject num = Instantiate(operators, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.transform.Find("Canvas/Text").GetComponent<TMP_Text>().text = oper_s[3];
+
+                    iter++;
+                }
+
+                for (int j = 0; j < charArr.Length; j++)
+                {
+                    GameObject num = Instantiate(number, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.GetComponent<Number>().SetNumber(charArr[j].ToString(), i, j);
 
 
-                iter++;
-            }
+                    iter++;
+                }
 
-            if (i == 0)
-            {
-                GameObject num = Instantiate(operators, transform);
-                Vector2 tr = transform.position;
-                num.transform.position = tr + offsetInst * iter;
-                num.transform.Find("Canvas/Text").GetComponent<Text>().text = oper_s[oper];
-
-                iter++;
-            }
-
-            if (i == 1)
-            {
-                GameObject num = Instantiate(operators, transform);
-                Vector2 tr = transform.position;
-                num.transform.position = tr + offsetInst * iter;
-                num.transform.Find("Canvas/Text").GetComponent<Text>().text = oper_s[3];
-
-                iter++;
+                
             }
         }
+        else
+        {
+            int iter = 0;
+            for (int i = 0; i < res_s.Length; i++)
+            {
+                char[] charArr = res_s[i].ToCharArray();
+                for (int j = 0; j < charArr.Length; j++)
+                {
+                    GameObject num = Instantiate(number, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.GetComponent<Number>().SetNumber(charArr[j].ToString(), i, j);
+
+
+                    iter++;
+                }
+
+                if (i == 0)
+                {
+                    GameObject num = Instantiate(operators, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.transform.Find("Canvas/Text").GetComponent<TMP_Text>().text = oper_s[oper];
+
+                    iter++;
+                }
+
+                if (i == 1)
+                {
+                    GameObject num = Instantiate(operators, transform);
+                    Vector2 tr = transform.position;
+                    num.transform.position = tr + offsetInst * iter;
+                    num.transform.Find("Canvas/Text").GetComponent<TMP_Text>().text = oper_s[3];
+
+                    iter++;
+                }
+            }
+        }
+        
     }
 
     public void DelNumbers()
@@ -163,16 +223,29 @@ public class NumberBlock : MonoBehaviour
 
         if (del_error)
         {
-            timerBar.lvlController.RestartLvl();
+
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<DestrSymbol>().canIBeDestroyed = false;
+                child.GetComponent<DestrSymbol>().StartDarness();
+            }
+
+            GameObject.Find("Interface/TextNotificaton").GetComponent<TMP_Text>().text = texts_error_math[Random.Range(0, texts_error_math.Length)];
+            timerBar.stopIt = true;
+
+            //timerBar.lvlController.FinishScene();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>().Die();
             print("equt ERROR");
-            DelNumbers();
+            //DelNumbers();
         }
 
         if (checkEquationFinal())
         {
+            numBlocksManager.IterNumberBlocksCounter();
             timerBar.addTimer();
             print("WIN");
-            DelNumbers();
+            CascadeDeletion();
+            //DelNumbers();
         }
 
     }
@@ -199,5 +272,25 @@ public class NumberBlock : MonoBehaviour
         }
 
         return res_bool;
+    }
+
+    public void CascadeDeletion()
+    {
+        StartCoroutine(CascadeDeletion_cor());
+    }
+
+    IEnumerator CascadeDeletion_cor()
+    {
+        while (transform.childCount != 0)
+        {
+            transform.GetChild(0).GetComponent<DestrSymbol>().DestrMe();
+            yield return new WaitForSeconds(0.05f);
+        }
+        
+        //foreach (Transform child in transform)
+        //{
+        //    child.GetComponent<DestrSymbol>().DestrMe();
+        //    yield return new WaitForSeconds(0.02f);
+        //}
     }
 }

@@ -43,3 +43,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 3504139735
+    locked: 0
+  - name: Ground
+    uniqueID: 97982255
+    locked: 0
+  - name: Player
+    uniqueID: 963805713
+    locked: 0
+  - name: WorldUi
+    uniqueID: 119788629
+    locked: 0
+  - name: Effects
+    uniqueID: 2387021415
+    locked: 0
+  - name: FirstUi
+    uniqueID: 6766495
+    locked: 0
+  - name: FrontUi
+    uniqueID: 3671066459
+    locked: 0
+  - name: BlackDisplay
+    uniqueID: 827609507
+    locked: 0

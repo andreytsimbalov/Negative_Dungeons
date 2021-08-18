@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController1 : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class PlayerController1 : MonoBehaviour
     public float deshTime = 0.1f;
     private float deshTime_now = 0f;
 
+    //public LvlController lvlController;
+    public TMP_Text text_not;
+    public TimerBar timerBar;
+
     public CamMove camMove;
     private float shackCamTimer = 0.1f;
 
@@ -33,8 +38,18 @@ public class PlayerController1 : MonoBehaviour
     public bool doubleJump = true;
     public bool lestDesh = false;
 
+    public bool death = false;
+    public bool canIDeath = true;
+
+    string[] texts_death = new string[]
+    { "Even mathematicians \n die at work... \n ...hmm, fun",
+        "You couldnТt solve \n this example anyway",
+        "auch",
+        "Euclid, Gauss, Cauchy, Euler... \n it's a pity that no one \n will know about you like that"
+    };
     void Start()
     {
+        timerBar = GameObject.Find("TimerBar").GetComponent<TimerBar>();
         float newGroundCheckXPos = GetComponent<BoxCollider2D>().offset.x;
         groundCheck.localPosition += new Vector3(newGroundCheckXPos, 0, 0);
         rb = GetComponent<Rigidbody2D>();
@@ -43,6 +58,9 @@ public class PlayerController1 : MonoBehaviour
 
     private void Update()
     {
+        // 0020-007F,0400-04FF
+        if (death) moveX = 0;
+        if (death) return;
         // чтение перемещени€
         moveX = Input.GetAxisRaw("Horizontal");
         // чтение прыжков
@@ -162,6 +180,21 @@ public class PlayerController1 : MonoBehaviour
 
 
 
+    }
+
+    public void Die(bool show_death_text = false)
+    {
+        if (!canIDeath) return;
+        if (death) return;
+        death = true;
+        GetComponent<AnimatorController>().death = true;
+        transform.Find("Weapon").GetComponent<Weapon>().death = true;
+
+        //lvlController.FinishScene();
+        timerBar.stopIt = true;
+
+        if (show_death_text)
+            text_not.text = texts_death[Random.Range(0, texts_death.Length)];
     }
 
 
