@@ -8,6 +8,7 @@ public class BadBullet : MonoBehaviour
     public float speed = 5f;
     private Rigidbody2D rb;
     public bool destrItAtStart = true;
+    public bool rotateIt = true;
     void Start()
     {
         speed = start_speed;
@@ -16,7 +17,8 @@ public class BadBullet : MonoBehaviour
         rb.rotation = transform.rotation.eulerAngles.z;
         rb.velocity = Vec2rot(Vector2.right, transform.rotation.eulerAngles.z) * speed;
 
-        StartCoroutine(RotateBullet());
+        if (rotateIt)
+            StartCoroutine(RotateBullet());
 
         if(destrItAtStart)
             Destroy(gameObject, 20f);

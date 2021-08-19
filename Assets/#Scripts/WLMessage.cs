@@ -12,6 +12,9 @@ public class WLMessage : MonoBehaviour
     public PlayerController1 pc;
 
     bool already_activated = false;
+    public AudioSource winSound;
+    public AudioSource loseSound;
+    //audioSource.Play();
 
     void Start()
     {
@@ -31,7 +34,14 @@ public class WLMessage : MonoBehaviour
 
         wl_mess.text = "\n LOSE";
         if (win_flag)
+        {
+            winSound.Play();
             wl_mess.text = "\n WIN";
+        }
+        else
+        {
+            loseSound.Play();
+        }
 
         rt_mess.text = "restart level - R\n next level - T";
 

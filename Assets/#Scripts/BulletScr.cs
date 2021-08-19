@@ -9,7 +9,7 @@ public class BulletScr : MonoBehaviour
     private Rigidbody2D rb;
 	public GameObject postBullet;
 	public List<string> tags = new List<string>();
-
+	//public AudioSource audioSource;
 	void Start()
     {
 		speed = start_speed;
@@ -17,7 +17,7 @@ public class BulletScr : MonoBehaviour
 
 		rb.rotation = transform.rotation.eulerAngles.z;
 		rb.velocity = Vec2rot(Vector2.right, transform.rotation.eulerAngles.z) * speed;
-
+		//audioSource.Play();
 		//StartCoroutine(RotateBullet());
 		Destroy(gameObject, 3f);
 	}
